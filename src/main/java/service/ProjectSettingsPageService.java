@@ -3,8 +3,6 @@ package service;
 import io.qameta.allure.Step;
 import model.Project;
 import page.ProjectSettingsPage;
-import page.ProjectsPage;
-import utils.Waiter;
 
 public class ProjectSettingsPageService {
     ProjectSettingsPage projectSettingsPage = new ProjectSettingsPage();
@@ -21,15 +19,18 @@ public class ProjectSettingsPageService {
     public String getMessageProjectUpdate() {
         return projectSettingsPage.getMessageSuccessfulUpdate();
     }
+
     @Step("Click button 'Projects' in menu")
     public ProjectsPageService clickButtonMenuProjects() {
- projectSettingsPage.clickButtonMenuProjects();
-        return new ProjectsPageService();}
+        projectSettingsPage.clickButtonMenuProjects();
+        return new ProjectsPageService();
+    }
 
     @Step("Click button 'Archive project'")
     public ProjectSettingsPageService clickButtonArchiveProject() {
         projectSettingsPage.clickButtonArchiveProject();
-        return new ProjectSettingsPageService();}
+        return new ProjectSettingsPageService();
+    }
 
     @Step("Get message about successful archive project")
     public String getMessageProjectArchived() {

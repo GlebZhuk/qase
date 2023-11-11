@@ -2,14 +2,15 @@ package page;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
+import model.Suite;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.AllureUtils;
 import utils.Waiter;
 
 @Log4j2
-public class ProjectNamePage extends Page{
-    @FindBy(xpath="//h1[@class='fGDnu0']")
+public class ProjectNamePage extends Page {
+    @FindBy(xpath = "//h1[@class='fGDnu0']")
     private WebElement nameOfCreatedProject;
     @FindBy(xpath = "//div[contains(text(), 'already in use')]")
     private WebElement messageAboutUsedCode;
@@ -56,16 +57,16 @@ public class ProjectNamePage extends Page{
     }
 
     @Step("Fill in suite name field")
-    public ProjectNamePage inputSuiteName(String suiteName) {
+    public ProjectNamePage inputSuiteName(Suite suite) {
         log.info("Fill in suite name field");
-        suiteNameField.sendKeys(suiteName);
+        suiteNameField.sendKeys(suite.getSuiteName());
         return this;
     }
 
     @Step("Click create suite button")
     public ProjectNamePage clickButtonCreateSuite() {
         log.info("Click create suite button");
-      Waiter.waitElementToBeClickable(buttonCreateSuite).click();
+        Waiter.waitElementToBeClickable(buttonCreateSuite).click();
         return this;
     }
 

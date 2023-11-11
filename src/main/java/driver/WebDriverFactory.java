@@ -10,6 +10,7 @@ import org.testng.annotations.Listeners;
 import utils.Waiter;
 
 import java.time.Duration;
+
 @Listeners(TestListener.class)
 public class WebDriverFactory {
     public static WebDriver getWebDriver() {
@@ -30,13 +31,12 @@ public class WebDriverFactory {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--incognito");
                 chromeOptions.addArguments("--remote-allow-origins=*");
-               // chromeOptions.setHeadless(true);
+                chromeOptions.setHeadless(true);
                 driver = new ChromeDriver(chromeOptions);
             }
         }
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Waiter.WAIT_10_SECONDS));
-        //driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Waiter.WAIT_5_SECONDS));
         return driver;
     }
 }

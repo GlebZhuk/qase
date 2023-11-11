@@ -1,13 +1,9 @@
 package service;
 
 import io.qameta.allure.Step;
-
 import model.Project;
-
 import page.ProjectNamePage;
 import page.ProjectsPage;
-import utils.AllureUtils;
-import utils.Waiter;
 
 public class ProjectsPageService {
     private ProjectsPage projectsPage = new ProjectsPage();
@@ -22,8 +18,8 @@ public class ProjectsPageService {
     @Step("Input data")
     public ProjectsPageService inputProjectsData(Project project) {
         projectsPage.clickCreateNewProjectButton()
-                .fillInProjectName(project.getProjectName())
-                .fillInProjectDescription(project.getProjectDescription())
+                .fillInProjectName(project)
+                .fillInProjectDescription(project)
                 .setProjectAccessType();
         return this;
     }
@@ -46,37 +42,35 @@ public class ProjectsPageService {
 
     @Step("Search project from value")
     public ProjectsPageService searchProjectFromValue(String value) {
-         projectsPage.inputSearchField(value);
-         return this;
+        projectsPage.inputSearchField(value);
+        return this;
     }
 
     @Step("Get projects search result")
-    public String getSearchResult() throws InterruptedException {
+    public String getSearchResult() {
         return projectsPage.getSearchResult();
     }
 
 
     @Step("Remove project")
-    public ProjectsPageService  removeProject (){
+    public ProjectsPageService removeProject() {
 
-      for (int i = projectsPage.getCountProjects(); i>=0;i--) {
-        projectsPage
-                .clickButtonsRemoveOrSettingProject(i)
-                .clickButtonRemoveProject()
-                .clickButtonDeleteProject();
-      }
+        for (int i = projectsPage.getCountProjects(); i >= 0; i--) {
+            projectsPage
+                    .clickButtonsRemoveOrSettingProject(i)
+                    .clickButtonRemoveProject()
+                    .clickButtonDeleteProject();
+        }
         return new ProjectsPageService();
     }
 
-
-
     @Step("Rename project")
-    public ProjectSettingsPageService  clickSettingProjectButton (){
-        for (int i = projectsPage.getCountProjects(); i>=0;i--) {
+    public ProjectSettingsPageService clickSettingProjectButton() {
+        for (int i = projectsPage.getCountProjects(); i >= 0; i--) {
             projectsPage
                     .clickButtonsRemoveOrSettingProject(i)
                     .clickButtonSettingsProject();
-            }
+        }
         return new ProjectSettingsPageService();
     }
 
@@ -84,6 +78,20 @@ public class ProjectsPageService {
     public ProjectsPageService clickCleanSearchButton() {
         projectsPage.clickCleanSearchButton();
         return this;
+    }
+
+    @Step("Set visibility for all projects")
+    public ProjectsPageService setVisibilityProjects() {
+        projectsPage.clickButtonStatusProjects()
+                .setVisibilityStatusProjects()
+                .clickButtonStatusProjects();
+        return new ProjectsPageService();
+    }
+
+    @Step("Click project name")
+    public ProjectNamePageService clickProjectName() {
+        projectsPage.clickProjectName();
+    return new ProjectNamePageService();
     }
 
 

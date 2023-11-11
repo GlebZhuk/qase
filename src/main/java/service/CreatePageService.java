@@ -5,11 +5,12 @@ import model.CaseModel;
 import page.CreatePage;
 
 public class CreatePageService {
-    CreatePage createPage=new CreatePage();
+    CreatePage createPage = new CreatePage();
+
     @Step("Create new case")
     public ProjectNamePageService createNewCase(CaseModel caseModel) {
-createPage.inputCaseName(caseModel.getCaseName())
-        .clickSaveButton();
+        createPage.inputCaseName(caseModel)
+                .clickSaveButton();
         return new ProjectNamePageService();
 
     }

@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class Waiter {
-    public final static int WAIT_2_SECONDS = 2;
     public final static int WAIT_5_SECONDS = 5;
 
     public final static int WAIT_10_SECONDS = 10;
@@ -20,7 +19,7 @@ public class Waiter {
     }
 
     public static WebElement waitElementToBeClickable(WebElement element) {
-        return new WebDriverWait(DriverSingleton.getInstance().getDriver(), Duration.ofSeconds(10))
+        return new WebDriverWait(DriverSingleton.getInstance().getDriver(), Duration.ofSeconds(WAIT_10_SECONDS))
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 }

@@ -1,26 +1,20 @@
 package model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Project {
-    private String projectName="Web Application";
-    private String projectDescription="This is my test project";
-    private String projectRename="QA Automation";
-
-    public Project(String projectName, String projectDescription, String projectRename) {
-        this.projectName = projectName;
-        this.projectDescription = projectDescription;
-        this.projectRename = projectRename;
-    }
-
-    public Project(String projectName, String projectDescription) {
-        this.projectName = projectName;
-        this.projectDescription = projectDescription;
-    }
-
-    public Project() {
-    }
+    private String projectName;
+    private String projectRename;
+    private String title;
+    private String code;
+    private String description;
+    private String access;
+    private String group;
 }

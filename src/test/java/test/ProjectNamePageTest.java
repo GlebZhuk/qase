@@ -11,7 +11,8 @@ import org.testng.annotations.Test;
 import service.LoginPageService;
 import service.ProjectNamePageService;
 import service.ProjectSettingsPageService;
-import service.ProjectsPageService;
+
+import static utils.StringConstant.*;
 
 public class ProjectNamePageTest extends BaseTest {
     private LoginPageService loginPageService;
@@ -23,30 +24,33 @@ public class ProjectNamePageTest extends BaseTest {
     public void setUp() {
         loginPageService = new LoginPageService();
         user = new User();
-        project = new Project();
-
+        project = Project.builder()
+                .projectName("Web Application")
+                .description("This is my test project")
+                .build();
     }
 
     @Description("Verify create new suite")
-    @Test(description = "Create new suite", priority = 4)
+    @Test(testName = "Create new suite", priority = 4)
     public void verifyCreateSuiteTest() {
-        Suite suite = new Suite();
-        ProjectNamePageService projectNamePageService = loginPageService.login(user)
-                .inputProjectsData(project)
-                .createNewProject();
-        String actualMessageAboutCreatedSuite = projectNamePageService.createNewSuite(suite.getSuiteName());
-        String expectedMessageAboutCreatedSuite = "Suite was successfully created.";
-        projectNamePageService.clickButtonProjects()
-                .removeProject();
+        Suite suite = Suite.builder()
+                .suiteName("Test suite")
+                .build();
+        ProjectNamePageService projectNamePageService =
+                loginPageService.login(user)
+                        .clickProjectName();
+        String actualMessageAboutCreatedSuite = projectNamePageService.createNewSuite(suite);
+        String expectedMessageAboutCreatedSuite = SUITE_CREATED;
         Assert.assertEquals(actualMessageAboutCreatedSuite, expectedMessageAboutCreatedSuite,
                 "Error create suite");
     }
 
     @Description("Verify create new case")
-    @Test(description = "Create new case", priority = 4)
+    @Test(testName = "Create new case", priority = 3)
     public void verifyCreateCaseTest() {
-        CaseModel caseModel = new CaseModel();
-
+        CaseModel caseModel = CaseModel.builder()
+                .title("Web application case")
+                .build();
         ProjectNamePageService projectNamePageService =
                 loginPageService.login(user)
                         .inputProjectsData(project)
@@ -54,48 +58,39 @@ public class ProjectNamePageTest extends BaseTest {
                         .clickCreateNewCase()
                         .createNewCase(caseModel);
         String actualMessageAboutCreatedCase = projectNamePageService.getMessageCaseCreated();
-        String expectedMessageAboutCreatedCase = "Test case was created successfully!";
-        projectNamePageService.clickButtonProjects()
-                .removeProject();
+        String expectedMessageAboutCreatedCase = TEST_CREATED;
         Assert.assertEquals(actualMessageAboutCreatedCase, expectedMessageAboutCreatedCase,
                 "Error create case");
     }
 
     @Description("Verify update project")
-    @Test(description = "Update project", priority = 4)
+    @Test(testName = "Update project", priority = 5)
     public void verifyUpdateProjectTest() {
-
+        Project projectRename = Project.builder()
+                .projectRename("Web Development")
+                .build();
         ProjectSettingsPageService projectSettingsPageService =
                 loginPageService.login(user)
-                        .inputProjectsData(project)
-                        .createNewProject()
-                        .clickButtonProjects()
                         .clickSettingProjectButton()
-                        .renameProject(project);
+                        .renameProject(projectRename);
         String actualMessageAboutUpdateProject = projectSettingsPageService.getMessageProjectUpdate();
-        String expectedMessageAboutUpdateProject = "Project settings were successfully updated!";
-        projectSettingsPageService
-                .clickButtonMenuProjects()
-                .removeProject();
-         Assert.assertEquals(actualMessageAboutUpdateProject, expectedMessageAboutUpdateProject,
-              "Error update project");
+        String expectedMessageAboutUpdateProject = TEST_UPDATED;
+        Assert.assertEquals(actualMessageAboutUpdateProject, expectedMessageAboutUpdateProject,
+                "Error update project");
     }
 
     @Description("Verify archive project")
-    @Test(description = "archive project", priority = 4)
+    @Test(testName = "archive project", priority = 6)
     public void verifyArchiveProjectTest() {
-
         ProjectSettingsPageService projectSettingsPageService =
                 loginPageService.login(user)
-                        .inputProjectsData(project)
-                        .createNewProject()
-                        .clickButtonProjects()
                         .clickSettingProjectButton()
                         .clickButtonArchiveProject();
         String actualMessageAboutArchiveProject = projectSettingsPageService.getMessageProjectArchived();
-        String expectedMessageAboutArchiveProject = "Project was successfully archived!";
+        String expectedMessageAboutArchiveProject = PROJECT_ARCHIVED;
         projectSettingsPageService
                 .clickButtonMenuProjects()
+                .setVisibilityProjects()
                 .removeProject();
         Assert.assertEquals(actualMessageAboutArchiveProject, expectedMessageAboutArchiveProject,
                 "Error update project");

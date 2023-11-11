@@ -2,20 +2,19 @@ package test;
 
 import jdk.jfr.Description;
 import model.Project;
-import model.Suite;
 import model.User;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.testng.Assert;
-import org.testng.annotations.*;
-import page.ProjectsPage;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import service.LoginPageService;
 import service.ProjectNamePageService;
 import service.ProjectsPageService;
-import utils.Waiter;
+
+import static utils.StringConstant.CODE_IS_USED;
+import static utils.StringConstant.DONT_HAVE_PROJECTS;
 
 public class ProjectPageTest extends BaseTest {
     private LoginPageService loginPageService;
-
     private User user;
     private Project project;
     private Project projectWebDevelopment;
@@ -26,12 +25,15 @@ public class ProjectPageTest extends BaseTest {
     public void setUp() {
         loginPageService = new LoginPageService();
         user = new User();
-        project = new Project();
+        project = Project.builder()
+                .projectName("Web Application")
+                .description("This is my test project")
+                .build();
 
     }
 
     @Description("Verify successful create project")
-    @Test(description = "Create Project", priority = 1)
+    @Test(testName = "Create Project", priority = 1)
     public void verifySuccessfulCreateProjectTest() {
         ProjectsPageService projectsPageService = loginPageService.login(user)
                 .inputProjectsData(project);
@@ -43,38 +45,44 @@ public class ProjectPageTest extends BaseTest {
     }
 
     @Description("Verify message if you try use existing project code")
-    @Test(description = "Creat existing project", priority = 2)
+    @Test(testName = "Creat existing project", priority = 2)
     public void verifyMessageIfProjectCodeIsUsedTest() {
         String actualMessageAboutProjectCodeIsUsed = loginPageService.login(user)
                 .inputProjectsData(project)
                 .createNewProject()
                 .getMassageIfProjectCodeUsed();
-        String expectedMessageAboutProjectCodeIsUsed = "The selected project code is already in use.";
+        String expectedMessageAboutProjectCodeIsUsed = CODE_IS_USED;
         Assert.assertEquals(actualMessageAboutProjectCodeIsUsed, expectedMessageAboutProjectCodeIsUsed,
                 "Error creating project recode message");
     }
 
     @Description("Verify delete project")
-    @Test(description = "Delete project", priority = 3)
+    @Test(testName = "Delete project", priority = 7)
     public void verifyDeleteProjectTest() {
         String actualMessageAboutYouDontHaveAnyProjects = loginPageService.login(user)
-                .inputProjectsData(project)
-                .createNewProject()
-                .clickButtonProjects()
                 .removeProject()
                 .getMessageYouDontHaveProjects();
-        String expectedMessageAboutYouDontHaveAnyProjects = "Looks like you don’t have any projects yet.";
+        String expectedMessageAboutYouDontHaveAnyProjects = DONT_HAVE_PROJECTS;
         Assert.assertEquals(actualMessageAboutYouDontHaveAnyProjects, expectedMessageAboutYouDontHaveAnyProjects,
                 "Error remove project");
     }
 
 
-    @Description("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Verify search projects")
-    @Test(description = "Search project", priority = 4)
-    public void verifySearchProjectTest() throws InterruptedException {
-        projectMobileResearch = new Project("Mobile research", "This is my test project");
-        projectQAAutomation = new Project("QA automation", "This is my test project");
-        projectWebDevelopment = new Project("Web development", "This is my test project");
+    @Description("Verify search projects")
+    @Test(testName = "Search project", priority = 8)
+    public void verifySearchProjectTest() {
+        projectMobileResearch = Project.builder()
+                .projectName("Mobile research")
+                .description("This is my test project")
+                .build();
+        projectQAAutomation = Project.builder()
+                .projectName("QA automation")
+                .description("This is my test project")
+                .build();
+        projectWebDevelopment = Project.builder()
+                .projectName("Web development")
+                .description("This is my test project")
+                .build();
         ProjectsPageService projectsPageService =
                 loginPageService.login(user)
                         .inputProjectsData(projectMobileResearch)
@@ -100,10 +108,3 @@ public class ProjectPageTest extends BaseTest {
 
 
 }
-
-
-
-
-
-
-

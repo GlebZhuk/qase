@@ -9,6 +9,6 @@ import org.testng.annotations.Listeners;
 public class BaseTest {
     @AfterClass
     public void stopBrowser() {
-      //  DriverSingleton.getInstance().closeDriver();
+        DriverSingleton.getInstance().closeDriver();
     }
 }

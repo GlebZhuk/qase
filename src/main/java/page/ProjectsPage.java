@@ -1,14 +1,13 @@
 package page;
 
 import io.qameta.allure.Step;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import model.Project;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
 import utils.AllureUtils;
 import utils.Waiter;
 
@@ -31,7 +30,7 @@ public class ProjectsPage extends Page {
     private WebElement projectDescriptionField;
     @FindBy(xpath = "//input[@value='public']")
     private WebElement projectAccessTypePublic;
-    List<WebElement> buttonsRemoveOrSettingsProjects =
+    private List<WebElement> buttonsRemoveOrSettingsProjects =
             driver.findElements(By.xpath("//td[8]/div/button"));
     @FindBy(xpath = "//button[@tabindex='0']")
     private WebElement buttonRemoveProject;
@@ -41,20 +40,23 @@ public class ProjectsPage extends Page {
     private WebElement buttonDeleteProject;
     @FindBy(xpath = "//div[contains(text(), 'have any projects' )]")
     private WebElement messageAboutYouDontHaveProjects;
-    @FindBy(xpath = "//input[@type='text']")
+    @FindBy(xpath = "//input[@placeholder]")
     private WebElement searchField;
-    // @FindBy(xpath = "//a[@class='MfvNFg']")
     @FindBy(xpath = "//tbody//a[@class]")
     private WebElement searchResult;
-    @FindBy(xpath = "//a[contains(text(), 'Projects')]")
-    private WebElement buttonMenuProjects;
-    @FindBy(xpath = "//button/i")
+    @FindBy(xpath = "//button[@aria-label]")
     private WebElement cleanSearchButton;
-    @FindBy(xpath = "//tr[1]//a[contains(text(), 'QA automation')]")
-    private WebElement verifySearchResult;
+    @FindBy(xpath = "//button//span[contains(text(), 'Status')]")
+    private WebElement buttonStatusProjects;
+    private List<WebElement> visibilityProjectsStatus =
+            driver.findElements(By.xpath("//input[@type='checkbox']"));
+
+    @FindBy(xpath = "//td[3]/div/div/a")
+    private WebElement projectName;
+
     @Getter
     @Setter
-    private int countProjects =buttonsRemoveOrSettingsProjects.size()-1;
+    private int countProjects = buttonsRemoveOrSettingsProjects.size() - 1;
 
     private boolean cycleIndicator = true;
 
@@ -79,9 +81,9 @@ public class ProjectsPage extends Page {
     }
 
     @Step("Input project name")
-    public ProjectsPage fillInProjectName(String name) {
+    public ProjectsPage fillInProjectName(Project project) {
         log.info("Input project name");
-        Waiter.waitElementToBeVisible(projectNameField).sendKeys(name);
+        Waiter.waitElementToBeVisible(projectNameField).sendKeys(project.getProjectName());
         return this;
     }
 
@@ -92,9 +94,9 @@ public class ProjectsPage extends Page {
     }
 
     @Step("Fill in project description")
-    public ProjectsPage fillInProjectDescription(String description) {
+    public ProjectsPage fillInProjectDescription(Project project) {
         log.info("Fil in project description");
-        projectDescriptionField.sendKeys(description);
+        projectDescriptionField.sendKeys(project.getDescription());
         return this;
     }
 
@@ -108,23 +110,21 @@ public class ProjectsPage extends Page {
 
     @Step("Click buttons which have buttons remove and settings")
     public ProjectsPage clickButtonsRemoveOrSettingProject(int i) {
-boolean y=true;
+        //boolean y = true;
+        cycleIndicator=true;
         log.info("Click buttons which have buttons remove and settings");
-        driver.navigate().refresh();
-
-       // countProjects = buttonsRemoveOrSettingsProjects.size() - 1;
         do {
             driver.navigate().refresh();
             buttonsRemoveOrSettingsProjects = driver.findElements(By.xpath("//td[8]/div/button"));
             if (!buttonsRemoveOrSettingsProjects.isEmpty()) {
-                Waiter.waitElementToBeVisible(buttonsRemoveOrSettingsProjects.get(i)).click();
-                y = false;
+                Waiter.waitElementToBeClickable(buttonsRemoveOrSettingsProjects.get(i)).click();
+                //y = false;
+                cycleIndicator=false;
             }
-        } while (y);
+        } while (cycleIndicator);
 
         return this;
     }
-
 
     @Step("Click remove project button")
     public ProjectsPage clickButtonRemoveProject() {
@@ -150,23 +150,16 @@ boolean y=true;
     @Step("Input in search field")
     public ProjectsPage inputSearchField(String value) {
         log.info("Input in search field");
+        driver.navigate().refresh();
         Waiter.waitElementToBeVisible(searchField).sendKeys(value);
         return this;
     }
 
     @Step("Get search projects resalt")
-    public String getSearchResult() throws InterruptedException {
+    public String getSearchResult() {
         log.info("Get Search projects result");
-        //Waiter.waitElementToBeVisible(verifySearchResult);
         driver.navigate().refresh();
         return Waiter.waitElementToBeVisible(searchResult).getText();
-    }
-
-    @Step("Click button 'Projects' in menu")
-    public ProjectsPage clickButtonMenuProjects() {
-        log.info("Click button 'Projects' in menu");
-        Waiter.waitElementToBeClickable(buttonMenuProjects).click();
-        return this;
     }
 
     @Step("Click clean search button")
@@ -181,6 +174,33 @@ boolean y=true;
         log.info("Click settings project button");
         Waiter.waitElementToBeClickable(buttonSettingsProject).click();
         return this;
+    }
+
+    @Step("Click button 'Status'")
+    public ProjectsPage clickButtonStatusProjects() {
+        log.info("Click button 'Status'");
+        buttonStatusProjects.click();
+        return this;
+    }
+
+    @Step("Set visibility status projects")
+    public ProjectsPage setVisibilityStatusProjects() {
+        log.info("Set visibility status projects");
+        List<WebElement> visibilityProjectsStatus =
+                driver.findElements(By.xpath("//input[@type='checkbox']"));
+        for (WebElement projectStatus : visibilityProjectsStatus) {
+            if (!projectStatus.isSelected()) {
+                projectStatus.click();
+            }
+        }
+        return this;
+    }
+
+    @Step("Click project name")
+    public ProjectNamePage clickProjectName() {
+        log.info("Click project name");
+        projectName.click();
+        return new ProjectNamePage();
     }
 
 }
