@@ -16,7 +16,7 @@ public class ProjectNamePage extends Page {
     private WebElement messageAboutUsedCode;
     @FindBy(xpath = "//a[contains(text(), 'Projects')]")
     private WebElement buttonMenuProjects;
-    @FindBy(xpath = "//span[contains(text(), 'new suite')]")
+    @FindBy(xpath = "//a[@id='create-suite-button']")
     private WebElement buttonCreateNewSuite;
     @FindBy(xpath = "//input[@id='title']")
     private WebElement suiteNameField;

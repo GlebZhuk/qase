@@ -53,8 +53,9 @@ public class ProjectNamePageTest extends BaseTest {
                 .build();
         ProjectNamePageService projectNamePageService =
                 loginPageService.login(user)
-                        .inputProjectsData(project)
-                        .createNewProject()
+                     //   .inputProjectsData(project)
+                       // .createNewProject()
+                        .clickProjectName()
                         .clickCreateNewCase()
                         .createNewCase(caseModel);
         String actualMessageAboutCreatedCase = projectNamePageService.getMessageCaseCreated();
