@@ -134,12 +134,6 @@
             <version>${allure-testng.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-java-commons</artifactId>
-            <version>2.14.0</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
 </project>
