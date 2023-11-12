@@ -1,19 +1,16 @@
-package service;
+package ui.service;
 
 import io.qameta.allure.Step;
 import model.Project;
-import page.ProjectNamePage;
-import page.ProjectsPage;
+import ui.page.ProjectsPage;
 
 public class ProjectsPageService {
-    private ProjectsPage projectsPage = new ProjectsPage();
-
+    private final ProjectsPage projectsPage = new ProjectsPage();
 
     @Step("Get text on the page after registration")
     public String getTextProjectsOnPage() {
         return projectsPage.findTextProjectsOnPage();
     }
-
 
     @Step("Input data")
     public ProjectsPageService inputProjectsData(Project project) {
@@ -37,7 +34,7 @@ public class ProjectsPageService {
 
     @Step("Get message that you don't have any projects")
     public String getMessageYouDontHaveProjects() {
-        return projectsPage.getMeassageDontHaveProjects();
+        return projectsPage.getMessageDontHaveProjects();
     }
 
     @Step("Search project from value")
@@ -51,10 +48,8 @@ public class ProjectsPageService {
         return projectsPage.getSearchResult();
     }
 
-
     @Step("Remove project")
     public ProjectsPageService removeProject() {
-
         for (int i = projectsPage.getCountProjects(); i >= 0; i--) {
             projectsPage
                     .clickButtonsRemoveOrSettingProject(i)
@@ -93,6 +88,4 @@ public class ProjectsPageService {
         projectsPage.clickProjectName();
     return new ProjectNamePageService();
     }
-
-
 }

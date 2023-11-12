@@ -1,12 +1,12 @@
-package service;
+package ui.service;
 
 import io.qameta.allure.Step;
 import model.Suite;
-import page.ProjectNamePage;
+import ui.page.ProjectNamePage;
 
 
 public class ProjectNamePageService {
-    private ProjectNamePage projectNamePage = new ProjectNamePage();
+    private final ProjectNamePage projectNamePage = new ProjectNamePage();
 
     @Step("Get text from name of new project")
     public String getNameOfNEwProject() {
@@ -17,7 +17,6 @@ public class ProjectNamePageService {
     public String getMassageIfProjectCodeUsed() {
         return projectNamePage.getTextCodeIsUsed();
     }
-
 
     @Step("Click button menu 'projects'")
     public ProjectsPageService clickButtonProjects() {
@@ -38,13 +37,10 @@ public class ProjectNamePageService {
         projectNamePage
                 .clickButtonNewCase();
         return new CreatePageService();
-
     }
 
     @Step("Get message about case created")
     public String getMessageCaseCreated() {
         return projectNamePage.getMessageOfCreatedCase();
     }
-
-
 }

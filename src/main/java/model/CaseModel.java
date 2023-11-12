@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class CaseModel {
     private String title;
     private String description;
-
 }

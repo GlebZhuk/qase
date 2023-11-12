@@ -4,15 +4,13 @@
 <suite name="Smoke" parallel="tests" thread-count="2">
     <test name="Login page tests">
         <classes>
-            <class name="test.LoginPageTest"></class>
+            <class name="ui.test.LoginPageTest"></class>
         </classes>
     </test>
-
     <test name="Project page test">
         <classes>
-            <class name="test.ProjectPageTest"></class>
-            <class name="test.ProjectNamePageTest"></class>
+            <class name="ui.test.ProjectPageTest"></class>
+            <class name="ui.test.ProjectNamePageTest"></class>
         </classes>
     </test>
-
 </suite>

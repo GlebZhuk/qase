@@ -1,4 +1,4 @@
-package test;
+package ui.test;
 
 import jdk.jfr.Description;
 import model.Project;
@@ -6,9 +6,9 @@ import model.User;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import service.LoginPageService;
-import service.ProjectNamePageService;
-import service.ProjectsPageService;
+import ui.service.LoginPageService;
+import ui.service.ProjectNamePageService;
+import ui.service.ProjectsPageService;
 
 import static utils.StringConstant.CODE_IS_USED;
 import static utils.StringConstant.DONT_HAVE_PROJECTS;
@@ -17,9 +17,7 @@ public class ProjectPageTest extends BaseTest {
     private LoginPageService loginPageService;
     private User user;
     private Project project;
-    private Project projectWebDevelopment;
-    private Project projectMobileResearch;
-    private Project projectQAAutomation;
+
 
     @BeforeClass
     public void setUp() {
@@ -29,7 +27,6 @@ public class ProjectPageTest extends BaseTest {
                 .projectName("Web Application")
                 .description("This is my test project")
                 .build();
-
     }
 
     @Description("Verify successful create project")
@@ -51,26 +48,26 @@ public class ProjectPageTest extends BaseTest {
                 .inputProjectsData(project)
                 .createNewProject()
                 .getMassageIfProjectCodeUsed();
-        String expectedMessageAboutProjectCodeIsUsed = CODE_IS_USED;
-        Assert.assertEquals(actualMessageAboutProjectCodeIsUsed, expectedMessageAboutProjectCodeIsUsed,
+        Assert.assertEquals(actualMessageAboutProjectCodeIsUsed, CODE_IS_USED,
                 "Error creating project recode message");
     }
 
     @Description("Verify delete project")
-    @Test(testName = "Delete project", priority = 7)
+    @Test(testName = "Delete project", priority = 3)
     public void verifyDeleteProjectTest() {
         String actualMessageAboutYouDontHaveAnyProjects = loginPageService.login(user)
                 .removeProject()
                 .getMessageYouDontHaveProjects();
-        String expectedMessageAboutYouDontHaveAnyProjects = DONT_HAVE_PROJECTS;
-        Assert.assertEquals(actualMessageAboutYouDontHaveAnyProjects, expectedMessageAboutYouDontHaveAnyProjects,
+        Assert.assertEquals(actualMessageAboutYouDontHaveAnyProjects, DONT_HAVE_PROJECTS,
                 "Error remove project");
     }
 
-
     @Description("Verify search projects")
-    @Test(testName = "Search project", priority = 8)
+    @Test(testName = "Search project", priority = 4)
     public void verifySearchProjectTest() {
+        Project projectWebDevelopment;
+        Project projectMobileResearch;
+        Project projectQAAutomation;
         projectMobileResearch = Project.builder()
                 .projectName("Mobile research")
                 .description("This is my test project")
@@ -105,6 +102,4 @@ public class ProjectPageTest extends BaseTest {
                 .removeProject();
         Assert.assertEquals(actualSearchResult, expectedSearchResult, "Error search!");
     }
-
-
 }

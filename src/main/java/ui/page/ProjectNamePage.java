@@ -1,11 +1,9 @@
-package page;
+package ui.page;
 
-import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import model.Suite;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import utils.AllureUtils;
 import utils.Waiter;
 
 @Log4j2
@@ -29,61 +27,49 @@ public class ProjectNamePage extends Page {
     @FindBy(xpath = "//span[contains(text(),'case was created')]")
     private WebElement messageCaseCreated;
 
-    @Step("Get text from name of new project")
     public String getNameOfNEwProject() {
         log.info("Get text from name of new project");
         return Waiter.waitElementToBeVisible(nameOfCreatedProject).getText();
     }
 
-    @Step("Get text about that project code is already in used")
     public String getTextCodeIsUsed() {
         log.info("Get text about that project code is already in used");
-        AllureUtils.takeScreenshot(driver);
         return Waiter.waitElementToBeVisible(messageAboutUsedCode).getText();
     }
 
-    @Step("Click button 'Projects' in menu")
-    public ProjectsPage clickButtonMenuProjects() {
+    public void clickButtonMenuProjects() {
         log.info("Click button 'Projects' in menu");
         Waiter.waitElementToBeClickable(buttonMenuProjects).click();
-        return new ProjectsPage();
     }
 
-    @Step("Click new suite button")
     public ProjectNamePage clickButtonNewSuite() {
         log.info("Click new suite button");
         buttonCreateNewSuite.click();
         return this;
     }
 
-    @Step("Fill in suite name field")
     public ProjectNamePage inputSuiteName(Suite suite) {
         log.info("Fill in suite name field");
         suiteNameField.sendKeys(suite.getSuiteName());
         return this;
     }
 
-    @Step("Click create suite button")
     public ProjectNamePage clickButtonCreateSuite() {
         log.info("Click create suite button");
         Waiter.waitElementToBeClickable(buttonCreateSuite).click();
         return this;
     }
 
-    @Step("Get message about suite successfully created")
     public String getMessageOfCreatedSuite() {
         log.info("Get message about suite successfully created");
         return Waiter.waitElementToBeVisible(messageSuiteCreated).getText();
     }
 
-    @Step("Click new case button")
-    public ProjectNamePage clickButtonNewCase() {
+    public void clickButtonNewCase() {
         log.info("Click new case button");
         buttonCreateNewCase.click();
-        return this;
     }
 
-    @Step("Get message about case created")
     public String getMessageOfCreatedCase() {
         log.info("Get message about case created");
         return Waiter.waitElementToBeVisible(messageCaseCreated).getText();

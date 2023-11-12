@@ -1,8 +1,8 @@
-package test;
+package api.test;
 
-import adapters.CaseAdapter;
-import adapters.ProjectAdapter;
-import adapters.SuiteAdapter;
+import api.adapters.CaseAdapter;
+import api.adapters.ProjectAdapter;
+import api.adapters.SuiteAdapter;
 import model.CaseModel;
 import model.Project;
 import model.Suite;
@@ -12,8 +12,6 @@ import org.testng.annotations.Test;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 public class ApiTest {
-
-
     @Test(testName = "Verify create new project", priority = 1)
     public void checkCreationNewProjectResultCodeTest() {
         Project project = Project.builder()

@@ -1,4 +1,4 @@
-package adapters;
+package api.adapters;
 
 import com.google.gson.Gson;
 import io.restassured.response.Response;
@@ -50,6 +50,5 @@ public class BaseAdapter {
                         .log().all()
                         .extract()
                         .response();
-
     }
 }

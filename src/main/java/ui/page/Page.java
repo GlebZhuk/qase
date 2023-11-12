@@ -1,4 +1,4 @@
-package page;
+package ui.page;
 
 import driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;

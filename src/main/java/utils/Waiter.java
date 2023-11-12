@@ -9,9 +9,7 @@ import java.time.Duration;
 
 public class Waiter {
     public final static int WAIT_5_SECONDS = 5;
-
     public final static int WAIT_10_SECONDS = 10;
-
 
     public static WebElement waitElementToBeVisible(WebElement element) {
         return new WebDriverWait(DriverSingleton.getInstance().getDriver(), Duration.ofSeconds(WAIT_10_SECONDS))

@@ -1,4 +1,4 @@
-package test;
+package ui.test;
 
 import jdk.jfr.Description;
 import model.User;
@@ -7,14 +7,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import service.LoginPageService;
-import service.ProjectsPageService;
+import ui.service.LoginPageService;
+import ui.service.ProjectsPageService;
 
 import static utils.StringConstant.*;
 
 public class LoginPageTest extends BaseTest {
     private LoginPageService loginPageService;
-
     private User user;
 
     @BeforeClass
@@ -28,8 +27,7 @@ public class LoginPageTest extends BaseTest {
     public void checkSuccessfulLoginTest() {
         ProjectsPageService projectsPageService = loginPageService.login(user);
         String actualTextOnProjectPage = projectsPageService.getTextProjectsOnPage();
-        String expectedTextOnProjectPage = PROJECTS;
-        Assert.assertEquals(actualTextOnProjectPage, expectedTextOnProjectPage,
+        Assert.assertEquals(actualTextOnProjectPage, PROJECTS,
                 "The actual text on the page doesn't match with expected. Error of registration");
     }
 
@@ -41,14 +39,14 @@ public class LoginPageTest extends BaseTest {
         String expectedTextOfEmptyFields = FIELD_IS_REQUIRED;
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(actualTextOfEmptyEmail, expectedTextOfEmptyFields,
-                "Error of test empty fields");
+                ERROR_OF_EMPTY_FIELD);
         softAssert.assertEquals(actualTextOfEmptyPassword, expectedTextOfEmptyFields,
-                "Error of test empty fields");
+                ERROR_OF_EMPTY_FIELD);
         softAssert.assertAll();
     }
 
-    @DataProvider(name = "values")
-    public Object[][] values() {
+    @DataProvider(name = "get incorrect values for test")
+    public Object[][] getIncorrectValues() {
         return new Object[][]{
                 {"@@@", "_!#("},
                 {"111111", " "},
@@ -57,12 +55,11 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Description("Verify incorrect values in registration fields")
-    @Test(testName = "Test incorrect values", dataProvider = "values", threadPoolSize = 3, priority = 2)
+    @Test(testName = "Test incorrect values", dataProvider = "get incorrect values for test", threadPoolSize = 3, priority = 2)
     public void checkIncorrectValuesInFieldsTest(String userName, String userPassword) {
-        String actualMeassageAboutIncorectValue = loginPageService.inputIncorrectValues(userName, userPassword);
-        String expectedMeassageAboutIncorectValue = "Value '" + userName + "' " + EMAIL_FORMAT;
-        Assert.assertEquals(actualMeassageAboutIncorectValue, expectedMeassageAboutIncorectValue,
+        String actualMessageAboutIncorrectValue = loginPageService.inputIncorrectValues(userName, userPassword);
+        String expectedMessageAboutIncorrectValue = "Value '" + userName + "' " + EMAIL_FORMAT;
+        Assert.assertEquals(actualMessageAboutIncorrectValue, expectedMessageAboutIncorrectValue,
                 "The actual text on the page doesn't match with expected. Error protected of registration");
     }
-
 }

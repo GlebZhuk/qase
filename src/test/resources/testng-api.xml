@@ -4,7 +4,7 @@
 <suite name="Api">
     <test name="Api tests">
         <classes>
-            <class name="test.ApiTest"></class>
+            <class name="api.test.ApiTest"></class>
         </classes>
     </test>
 </suite>

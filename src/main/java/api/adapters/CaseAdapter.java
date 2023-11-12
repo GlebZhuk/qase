@@ -1,4 +1,4 @@
-package adapters;
+package api.adapters;
 
 import io.restassured.response.Response;
 import model.CaseModel;

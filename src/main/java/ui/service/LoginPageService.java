@@ -1,12 +1,12 @@
-package service;
+package ui.service;
 
 import io.qameta.allure.Step;
 import model.User;
-import page.LoginPage;
+import ui.page.LoginPage;
 
 public class LoginPageService {
     private static final String LOGIN_PAGE_URL = "https://app.qase.io/login";
-    private LoginPage loginPage = new LoginPage();
+    private final LoginPage loginPage = new LoginPage();
 
     @Step("Login user")
     public ProjectsPageService login(User user) {

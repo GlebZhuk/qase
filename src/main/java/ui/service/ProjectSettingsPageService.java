@@ -1,11 +1,11 @@
-package service;
+package ui.service;
 
 import io.qameta.allure.Step;
 import model.Project;
-import page.ProjectSettingsPage;
+import ui.page.ProjectSettingsPage;
 
 public class ProjectSettingsPageService {
-    ProjectSettingsPage projectSettingsPage = new ProjectSettingsPage();
+    private final ProjectSettingsPage projectSettingsPage = new ProjectSettingsPage();
 
     @Step("Clear project name")
     public ProjectSettingsPageService renameProject(Project project) {

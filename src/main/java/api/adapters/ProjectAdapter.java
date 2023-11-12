@@ -1,4 +1,4 @@
-package adapters;
+package api.adapters;
 
 import io.restassured.response.Response;
 import model.Project;
@@ -15,6 +15,6 @@ public class ProjectAdapter extends BaseAdapter {
     }
 
     public Response deleteProject(String projectCode) {
-        return delete(String.format(PROJECT_API_ENDPOINT + projectCode));
+        return delete(PROJECT_API_ENDPOINT + projectCode);
     }
 }
