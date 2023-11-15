@@ -45,6 +45,8 @@ public class ProjectsPage extends Page {
     private WebElement cleanSearchButton;
     @FindBy(xpath = "//button//span[contains(text(), 'Status')]")
     private WebElement buttonStatusProjects;
+    @FindBy(xpath = "//div[@id='modals']//span[contains(text(), 'Cancel')]")
+    private WebElement buttonCancelCreateProject;
     @FindBy(xpath = "//td[3]/div/div/a")
     private WebElement projectName;
     @Getter
@@ -160,5 +162,10 @@ public class ProjectsPage extends Page {
     public void clickProjectName() {
         log.info("Click project name");
         projectName.click();
+    }
+
+    public void clickButtonCancelCreateProject() {
+        log.info("Click button 'Cancel' for create new project");
+        buttonCancelCreateProject.click();
     }
 }

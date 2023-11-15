@@ -17,21 +17,22 @@ import static utils.StringConstant.*;
 public class ProjectNamePageTest extends BaseTest {
     private LoginPageService loginPageService;
     private User user;
+    private Project project;
 
 
     @BeforeClass
     public void setUp() {
         loginPageService = new LoginPageService();
         user = new User();
+        project = Project.builder()
+                .projectName("Mobile develop")
+                .description("Project for ProjectNamePageTest")
+                .build();
     }
 
     @Description("Verify create new suite")
     @Test(testName = "Create new suite", priority = 5)
     public void verifyCreateSuiteTest() {
-        Project project = Project.builder()
-                .projectName("Mobile develop")
-                .description("Project for ProjectNamePageTest")
-                .build();
         Suite suite = Suite.builder()
                 .suiteName("Test suite")
                 .build();
@@ -40,6 +41,8 @@ public class ProjectNamePageTest extends BaseTest {
                         .inputProjectsData(project)
                         .createNewProject();
         String actualMessageAboutCreatedSuite = projectNamePageService.createNewSuite(suite);
+        projectNamePageService.clickButtonProjects()
+                .removeProject();
         Assert.assertEquals(actualMessageAboutCreatedSuite, SUITE_CREATED,
                 "Error create suite");
     }
@@ -52,10 +55,13 @@ public class ProjectNamePageTest extends BaseTest {
                 .build();
         ProjectNamePageService projectNamePageService =
                 loginPageService.login(user)
-                        .clickProjectName()
+                        .inputProjectsData(project)
+                        .createNewProject()
                         .clickCreateNewCase()
                         .createNewCase(caseModel);
         String actualMessageAboutCreatedCase = projectNamePageService.getMessageCaseCreated();
+        projectNamePageService.clickButtonProjects()
+                .removeProject();
         Assert.assertEquals(actualMessageAboutCreatedCase, TEST_CREATED,
                 "Error create case");
     }
@@ -68,9 +74,14 @@ public class ProjectNamePageTest extends BaseTest {
                 .build();
         ProjectSettingsPageService projectSettingsPageService =
                 loginPageService.login(user)
+                        .inputProjectsData(project)
+                        .createNewProject()
+                        .clickButtonProjects()
                         .clickSettingProjectButton()
                         .renameProject(projectRename);
         String actualMessageAboutUpdateProject = projectSettingsPageService.getMessageProjectUpdate();
+        projectSettingsPageService.clickButtonMenuProjects()
+                .removeProject();
         Assert.assertEquals(actualMessageAboutUpdateProject, TEST_UPDATED,
                 "Error update project");
     }
@@ -80,6 +91,9 @@ public class ProjectNamePageTest extends BaseTest {
     public void verifyArchiveProjectTest() {
         ProjectSettingsPageService projectSettingsPageService =
                 loginPageService.login(user)
+                        .inputProjectsData(project)
+                        .createNewProject()
+                        .clickButtonProjects()
                         .clickSettingProjectButton()
                         .clickButtonArchiveProject();
         String actualMessageAboutArchiveProject = projectSettingsPageService.getMessageProjectArchived();

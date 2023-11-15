@@ -83,9 +83,9 @@ public class ProjectsPageService {
         return new ProjectsPageService();
     }
 
-    @Step("Click project name")
-    public ProjectNamePageService clickProjectName() {
-        projectsPage.clickProjectName();
-    return new ProjectNamePageService();
+    @Step("Click button 'Cancel' for create new project")
+    public ProjectsPageService clickButtonCancelCreateProject() {
+        projectsPage.clickButtonCancelCreateProject();
+        return this;
     }
 }

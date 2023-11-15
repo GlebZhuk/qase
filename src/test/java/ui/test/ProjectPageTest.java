@@ -37,6 +37,8 @@ public class ProjectPageTest extends BaseTest {
         String expectedTextOnProjectPage = projectsPageService.getProjectCode() + " repository";
         ProjectNamePageService projectNamePageService = projectsPageService.createNewProject();
         String actualTextOnProjectNamePage = projectNamePageService.getNameOfNEwProject();
+        projectNamePageService.clickButtonProjects()
+                .removeProject();
         Assert.assertEquals(actualTextOnProjectNamePage, expectedTextOnProjectPage,
                 "The actual text on the page doesn't match with expected. Error of creating project");
     }
@@ -44,18 +46,27 @@ public class ProjectPageTest extends BaseTest {
     @Description("Verify message if you try use existing project code")
     @Test(testName = "Creat existing project", priority = 2)
     public void verifyMessageIfProjectCodeIsUsedTest() {
-        String actualMessageAboutProjectCodeIsUsed = loginPageService.login(user)
+        ProjectNamePageService projectNamePageService = loginPageService.login(user)
                 .inputProjectsData(project)
                 .createNewProject()
-                .getMassageIfProjectCodeUsed();
+                .clickButtonProjects()
+                .inputProjectsData(project)
+                .createNewProject();
+        String actualMessageAboutProjectCodeIsUsed = projectNamePageService.getMassageIfProjectCodeUsed();
+        ProjectsPageService projectsPageService = new ProjectsPageService();
+        projectsPageService.clickButtonCancelCreateProject()
+                .removeProject();
         Assert.assertEquals(actualMessageAboutProjectCodeIsUsed, CODE_IS_USED,
                 "Error creating project recode message");
     }
 
     @Description("Verify delete project")
-    @Test(testName = "Delete project", priority = 3)
+    @Test(testName = "Delete project", priority = 4)
     public void verifyDeleteProjectTest() {
         String actualMessageAboutYouDontHaveAnyProjects = loginPageService.login(user)
+                .inputProjectsData(project)
+                .createNewProject()
+                .clickButtonProjects()
                 .removeProject()
                 .getMessageYouDontHaveProjects();
         Assert.assertEquals(actualMessageAboutYouDontHaveAnyProjects, DONT_HAVE_PROJECTS,
@@ -63,7 +74,7 @@ public class ProjectPageTest extends BaseTest {
     }
 
     @Description("Verify search projects")
-    @Test(testName = "Search project", priority = 4)
+    @Test(testName = "Search project", priority = 3)
     public void verifySearchProjectTest() {
         Project projectWebDevelopment;
         Project projectMobileResearch;
